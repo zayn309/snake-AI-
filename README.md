@@ -22,8 +22,8 @@ Our trained AI agent was able to achieve a high score in the game, demonstrating
   <img src="https://user-images.githubusercontent.com/102887305/227445623-a5795bcf-2016-453c-9b1d-5a9184e3f685.png" alt="Sublime's custom image"/>
 </p>
 
-#Limitations
+# Limitations
 One limitation of our project is the simplicity of the game environment. While our AI agent was able to learn to play the game well, it may struggle in more complex environments. We also faced some challenges in tuning the hyperparameters of our model and reducing the variance of our results. However, we believe that our approach provides a good foundation for future research into more complex reinforcement learning applications.
 
-#Conclusion
+# Conclusion
 In conclusion, our Snake AI project demonstrates the ability of deep reinforcement learning algorithms to learn from experience and adapt to changing environments. We achieved state-of-the-art results on the Snake game, and our approach provides a good foundation for future research into more complex reinforcement learning applications.
