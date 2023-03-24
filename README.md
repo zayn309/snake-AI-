@@ -21,10 +21,5 @@ We used the visual input from the Snake game as our dataset. The game environmen
 
 # Results
 Our trained AI agent was able to achieve a high score in the game, demonstrating its ability to learn from experience and adapt to changing environments. We experimented with different hyperparameters and analyzed their effect on the model's performance. Our approach achieves state-of-the-art results on the Snake game.
-
-<p align="center">
-  <img src="[https://user-images.githubusercontent.com/102887305/227443271-17beaf60-cd9d-456d-ae2a-c0ababfe017c.png](https://user-images.githubusercontent.com/102887305/227441711-28b197d4-4bca-43e4-91dd-e83d8398af10.gif)" alt=""/>
-</p>
-<p align="center">
-  <img src="[https://user-images.githubusercontent.com/102887305/227443271-17beaf60-cd9d-456d-ae2a-c0ababfe017c.png](https://user-images.githubusercontent.com/102887305/227445421-4ee162a9-8de2-45e5-9b6f-c2395d12f16c.png)" alt=""/>
-</p>
+![2023_03_11_063429_-_Trim_AdobeExpress_AdobeExpress](https://user-images.githubusercontent.com/102887305/227445595-cc5d4f74-526a-48ff-be50-9eba0e81c371.gif)
+![vlcsnap-2023-03-24-08h02m35s029](https://user-images.githubusercontent.com/102887305/227445623-a5795bcf-2016-453c-9b1d-5a9184e3f685.png)
