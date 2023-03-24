@@ -5,13 +5,7 @@
 Snake AI is a deep reinforcement learning project that trains an AI agent to play the classic Snake game. The goal of the project is to demonstrate the ability of reinforcement learning algorithms to learn from experience and adapt to changing environments. Our trained AI agent was able to achieve a high score in the game, demonstrating its ability to learn from experience and adapt to changing environments.
 
 # Requirements
-To run this project, you will need the following:
-
-Python 3.6 or higher
-Pygame
-TensorFlow 2.0 or higher
-NumPy
-Matplotlib
+To run this project, you will need Python 3.6 or higher and to get the required modules run the command "pip install -r requirements.txt"
 
 # Approach
 We used a deep Q-learning approach to train our AI agent. The agent receives the current game state as input and outputs an action. The model was trained using experience replay to reduce correlations between consecutive updates and stabilize the learning process. We also used an epsilon-greedy exploration strategy to encourage the agent to explore new actions. Our approach is based on state-of-the-art reinforcement learning techniques, and we fine-tuned the model for optimal performance.
