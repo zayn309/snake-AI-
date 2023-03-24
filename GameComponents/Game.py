@@ -15,12 +15,13 @@ from collisionSystem.snakeCollision import snakeCollision
 from .const import *
 class Game:
 
-    def __init__(self, width: int, height: int):
+    def __init__(self, width: int, height: int, fps: int):
         self.width = width
         self.height = height
+        self.fps = fps
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.snake = Snake(self.width//2, self.height//2, BLOCK_SIZE , BLOCK_SIZE)
-        self.food = Food(self.width-12, self.height-12, 10, RED ,self.snake)
+        self.food = Food(self.width-12, self.height-12, BLOCK_SIZE, RED ,self.snake)
         self.score = Score(os.path.join(os.path.join(os.path.dirname(__file__), '..', 'fonts'), "arial.ttf"))
         self.max_score = MaxScore('max score.txt',os.path.join(os.path.join(os.path.dirname(__file__), '..', 'fonts'), "arial.ttf"))
         self.snakeCollisionDetector = snakeCollision(self.snake,self.food,self.width,self.height)
@@ -30,7 +31,6 @@ class Game:
         self.clock = pygame.time.Clock()
 
     def check_snake_food_collision(self):
-        
         if self.snakeCollisionDetector.snake_food_collision():
             self.snake.grow()
             self.food.spawn()
@@ -60,35 +60,6 @@ class Game:
             self.Sensors.draw_lines()
         
             
-    def play_step(self, action):
-        self.frame_iteration += 1
-        # 1. collect user input
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-        
-        # 2. move
-        self.snake.change_direction(action) # update the head
-        self.snake.move()
-        # 3. check if game over
-        reward = 0
-        game_over = False
-        if self.check_octcale_collisions() or self.frame_iteration > 100*len(self.snake.body):
-            game_over = True
-            reward = -10
-            return reward, game_over, self.score.value
-
-        if self.check_food_collision():
-            reward = 10
-        
-        # 5. update ui and clock
-        self.draw(draw_sensor=True)
-        
-        self.clock.tick(20)
-        
-        # 6. return game over and score
-        return reward, game_over, self.score
 
     def game_over(self):
         

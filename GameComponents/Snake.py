@@ -55,16 +55,22 @@ class Snake:
         # Change the snake's direction
         index = CLOCK_WISE.index(self.direction)
         new_dir = None
+        
         if np.array_equal(action,[1,0,0]):
             new_dir = CLOCK_WISE[index]
+            
         elif np.array_equal(action,[0,1,0]):
             next_idx = (index + 1) % 4
             new_dir = CLOCK_WISE[next_idx]
+            
+
         else:
             next_idx = (index - 1) % 4
             new_dir = CLOCK_WISE[next_idx]
+            
+
         self.direction = new_dir
-    
+
     def grow(self):
         # Increase the size of the snake
         self.grow_pending += 1

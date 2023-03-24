@@ -20,8 +20,9 @@ class Linear_QNet(nn.Module):
         """
         super().__init__()
         self.linear1 = nn.Linear(input_size, hidden_size)
-        self.linear2 = nn.Linear(hidden_size, hidden_size//2)
-        self.linear3 = nn.Linear(hidden_size, output_size)
+        self.linear2 = nn.Linear(hidden_size, output_size)
+        
+        
 
     def forward(self, x):
         """
@@ -34,8 +35,7 @@ class Linear_QNet(nn.Module):
             tensor: Output tensor of shape (batch_size, output_size).
         """
         x = F.relu(self.linear1(x))
-        x = F.relu(self.linear2(x))
-        x = self.linear3(x)
+        x = self.linear2(x)
         return x
 
     def save(self, file_name='model.pth'):
@@ -56,7 +56,7 @@ class Linear_QNet(nn.Module):
 
 class QTrainer:
     """
-    A class to handle training of a Q-learning model using PyTorch.
+    A class to handle training of a Q-learning model.
     """
     def __init__(self, model, lr, gamma):
         """
@@ -70,7 +70,7 @@ class QTrainer:
         self.lr = lr
         self.gamma = gamma
         self.model = model
-        self.optimizer = optim.Adam(model.parameters(), lr=self.lr)
+        self.optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
         self.criterion = nn.MSELoss()
 
     def train_step(self, state, action, reward, next_state, done):
@@ -92,7 +92,8 @@ class QTrainer:
         action = torch.tensor(action, dtype=torch.long)
         reward = torch.tensor(reward, dtype=torch.float)
 
-        if len(state.shape) == 1:
+        
+        if len(state.shape) == 1:# as torch expects the input in a certain format of a batch even if it is a single training example
             state = torch.unsqueeze(state, 0)
             next_state = torch.unsqueeze(next_state, 0)
             action = torch.unsqueeze(action, 0)
@@ -113,3 +114,4 @@ class QTrainer:
         loss = self.criterion(target, pred)
         loss.backward()
         self.criterion = nn.MSELoss()
+        self.optimizer.step()

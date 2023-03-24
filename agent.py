@@ -2,9 +2,9 @@ import random
 from collections import deque
 import pygame
 import torch
-from .GameComponents import Game
+from GameComponents.Game import Game
 
-from .GameComponents.const import *
+from GameComponents.const import *
 
 from helper import plot
 
@@ -85,6 +85,7 @@ class Agent:
         - done (bool): Whether or not the game is over.
         """
         self.trainer.train_step(state, action, reward, next_state, done)
+        
     def get_action(self, state):
         """
         Choose an action to take based on the current state of the game and the agent's policy.
@@ -103,23 +104,49 @@ class Agent:
             move = random.randint(0, 2)
             final_move[move] = 1
         else:
-            # Otherwise, choose the action with the highest Q-value according to the agent's model
+        # Otherwise, choose the action with the highest Q-value according to the agent's model
             state0 = torch.tensor(state, dtype=torch.float)
             prediction = self.model(state0)
             move = torch.argmax(prediction).item()
             final_move[move] = 1
-
         return final_move
-
-
-def handle_events():
-    for event in pygame.event.get():
+    
+    def play_step(self,game, action):
+        game.frame_iteration += 1
+        # 1. collect user input
+        for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                pygame.quit()
                 quit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_a:
-                    return True
-    return False
+                
+        game.snake.change_direction(action)
+        # 2. move
+        reward = 0
+        
+        # if the snake started to go for the food
+        if (game.Sensors.get_neuralNetwork_input()[-4:] == True ).sum() == 1:
+            reward += 1
+            
+        game.snake.move()
+        # check if the sanke ate food to give positive reward so it identify that it's a good move
+        if game.check_snake_food_collision():
+            reward += 10
+        
+        # 3. check if game over
+        game_over = False
+        lost = game.check_snake_wall_collision() or game.check_snake_body_collision()
+        if lost or game.frame_iteration > 100*len(game.snake.body):
+            game_over = True
+            reward -= 10
+            self.n_games += 1
+        
+        # 5. update ui and clock
+        game.draw(draw_sensor=True)
+        
+        game.clock.tick(game.fps)
+        
+        return reward, game_over, game.score.value
+
 
 def train():
     plot_scores = []  # List to store scores for plotting
@@ -127,7 +154,7 @@ def train():
     total_score = 0  # Variable to store total score
     record = 0  # Variable to store highest score
     agent = Agent()  # Initialize the agent object
-    game = Game(WIDTH, LENGHT)  # Initialize the game object
+    game = Game(WIDTH, LENGHT,20)  # Initialize the game object
 
     while True:
         # Get the current state of the game
@@ -137,7 +164,8 @@ def train():
         final_move = agent.get_action(state_old)
 
         # Perform the move and get the new state, reward, and done status
-        reward, done, score = game.play_step(final_move)
+        reward, done, score = agent.play_step(game,final_move)
+        
         state_new = agent.get_state(game)
 
         # Train the agent on the short-term memory
@@ -170,6 +198,3 @@ def train():
 
 if __name__ == '__main__':
     train()
-
-
-    

@@ -128,4 +128,4 @@ class sensors:
             self.food.rect.y > head.y  # food down
         ]
         
-        return np.array(state, dtype=int)
+        return np.array(state, dtype=int) 
